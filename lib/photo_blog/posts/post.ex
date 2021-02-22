@@ -4,6 +4,7 @@ defmodule PhotoBlog.Posts.Post do
 
   schema "posts" do
     field :body, :string
+    belongs_to :user, PhotoBlog.Users.User
 
     timestamps()
   end
@@ -11,7 +12,7 @@ defmodule PhotoBlog.Posts.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:body])
-    |> validate_required([:body])
+    |> cast(attrs, [:body, :user_id])
+    |> validate_required([:body, :user_id])
   end
 end

@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col">
     <h1>Photo Feed</h1>
+    <%= link "New Post", to: Routes.post_path(@conn, :new) %>
   </div>
 </div>
 
@@ -11,6 +12,7 @@
       <img class="card-img-top" src="" alt="">
       -->
       <div class="card-body">
+        <p>Posted by <%= post.user.name %></p>
         <p class="card-text"><%= post.body %></p>
         <%= link "view", to: Routes.post_path(@conn, :show, post) %>
       </div>
