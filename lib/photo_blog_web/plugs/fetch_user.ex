@@ -1,4 +1,4 @@
-defmodule PhotoBlogWeb.Plugs.FetchSession do
+defmodule PhotoBlogWeb.Plugs.FetchUser do
   import Plug.Conn
 
   def init(args), do: args

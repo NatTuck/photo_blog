@@ -4,7 +4,7 @@ defmodule PhotoBlog.Users.User do
 
   schema "users" do
     field :name, :string
-    field :password, :string
+    field :password_hash, :string
     has_many :posts, PhotoBlog.Posts.Post
 
     timestamps()
@@ -13,7 +13,7 @@ defmodule PhotoBlog.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :password])
-    |> validate_required([:name, :password])
+    |> cast(attrs, [:name, :password_hash])
+    |> validate_required([:name])
   end
 end
