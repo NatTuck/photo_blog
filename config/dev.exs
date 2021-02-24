@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :photo_blog, PhotoBlog.Repo,
   username: "photo_blog",
-  password: "Eiwei2quaeH5",
+  password: "uzae7aiw1eeV",
   database: "photo_blog_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
