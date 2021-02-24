@@ -8,9 +8,8 @@
 <div class="row">
   <%= for post <- @posts do %>
     <div class="col-sm-4 card">
-      <!--
-      <img class="card-img-top" src="" alt="">
-      -->
+      <% src = Routes.post_path(@conn, :photo, post) %>
+      <img class="card-img-top" src="<%= src %>" alt="">
       <div class="card-body">
         <p>Posted by <%= post.user.name %></p>
         <p class="card-text"><%= post.body %></p>

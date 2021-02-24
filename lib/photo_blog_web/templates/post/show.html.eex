@@ -6,5 +6,9 @@
 <h1>Show Post #<%= @post.id %></h1>
 
 <div>
+  <img src="<%= Routes.post_path(@conn, :photo, @post) %>" alt="">
+</div>
+
+<div>
   <%= @post.body %>
 </div>

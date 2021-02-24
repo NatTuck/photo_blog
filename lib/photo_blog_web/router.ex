@@ -19,6 +19,7 @@ defmodule PhotoBlogWeb.Router do
 
     get "/", PageController, :index
     resources "/posts", PostController
+    get "/posts/photo/:id", PostController, :photo
     resources "/users", UserController
 
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
