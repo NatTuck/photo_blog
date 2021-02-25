@@ -12,9 +12,12 @@
     <div role="main" class="container">
       <div class="row">
         <div class="col my-2">
-          <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-            <p><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-          <% end %>
+          <p>
+            <%= link "Home", to: "/" %>
+            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+              | <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
+            <% end %>
+          </p>
         </div>
         <%= if @conn.assigns[:current_user] do %>
           <div class="col">

@@ -38,6 +38,11 @@ defmodule PhotoBlog.Posts do
   """
   def get_post!(id), do: Repo.get!(Post, id)
 
+
+  def load_comments(%Post{} = post) do
+    Repo.preload(post, [comments: :user])
+  end
+
   @doc """
   Creates a post.
 

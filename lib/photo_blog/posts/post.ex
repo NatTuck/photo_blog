@@ -6,6 +6,7 @@ defmodule PhotoBlog.Posts.Post do
     field :body, :string
     field :photo_hash, :string
     belongs_to :user, PhotoBlog.Users.User
+    has_many :comments, PhotoBlog.Comments.Comment
 
     timestamps()
   end
