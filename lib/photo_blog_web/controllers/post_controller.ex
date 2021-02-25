@@ -5,6 +5,32 @@ defmodule PhotoBlogWeb.PostController do
   alias PhotoBlog.Posts.Post
   alias PhotoBlog.Photos
 
+  alias PhotoBlogWeb.Plugs
+  plug Plugs.RequireUser when action in [:new, :edit, :create, :update]
+
+  plug :fetch_post when action in [:show, :photo, :edit, :update, :delete]
+  plug :require_owner when action in [:edit, :update, :delete]
+
+  def fetch_post(conn, _args) do
+    id = conn.params["id"]
+    post = Posts.get_post!(id)
+    assign(conn, :post, post)
+  end
+
+  def require_owner(conn, _args) do
+    user = conn.assigns[:current_user]
+    post = conn.assigns[:post]
+
+    if user.id == post.user_id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "That isn't yours.")
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt()
+    end
+  end
+
   def index(conn, _params) do
     posts = Posts.list_posts()
     render(conn, "index.html", posts: posts)
@@ -33,27 +59,27 @@ defmodule PhotoBlogWeb.PostController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    post = Posts.get_post!(id)
+  def show(conn, %{"id" => _id}) do
+    post = conn.assigns[:post]
     render(conn, "show.html", post: post)
   end
 
-  def photo(conn, %{"id" => id}) do
-    post = Posts.get_post!(id)
+  def photo(conn, %{"id" => _id}) do
+    post = conn.assigns[:post]
     {:ok, _name, data} = Photos.load_photo(post.photo_hash)
     conn
     |> put_resp_content_type("image/jpeg")
     |> send_resp(200, data)
   end
 
-  def edit(conn, %{"id" => id}) do
-    post = Posts.get_post!(id)
+  def edit(conn, %{"id" => _id}) do
+    post = conn.assigns[:post]
     changeset = Posts.change_post(post)
     render(conn, "edit.html", post: post, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "post" => post_params}) do
-    post = Posts.get_post!(id)
+  def update(conn, %{"id" => _id, "post" => post_params}) do
+    post = conn.assigns[:post]
     up = post_params["photo"]
 
     post_params = if up do
@@ -75,9 +101,9 @@ defmodule PhotoBlogWeb.PostController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => _id}) do
+    post = conn.assigns[:post]
     # FIXME: Remove old image
-    post = Posts.get_post!(id)
     {:ok, _post} = Posts.delete_post(post)
 
     conn

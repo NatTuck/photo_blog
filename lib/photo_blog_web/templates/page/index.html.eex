@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col">
     <h1>Photo Feed</h1>
-    <%= link "New Post", to: Routes.post_path(@conn, :new) %>
+    <%= if have_current_user?(@conn) do %>
+      <p><%= link "New Post", to: Routes.post_path(@conn, :new) %></p>
+    <% end %>
   </div>
 </div>
 

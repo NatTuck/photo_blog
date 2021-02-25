@@ -1,5 +1,7 @@
 <p>
-  <span><%= link "Edit", to: Routes.post_path(@conn, :edit, @post) %></span>
+  <%= if current_user_id?(@conn, @post.user_id) do %>
+    <span><%= link "Edit", to: Routes.post_path(@conn, :edit, @post) %></span>
+  <% end %>
   <span><%= link "Back", to: Routes.post_path(@conn, :index) %></span>
 </p>
 
