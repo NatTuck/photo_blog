@@ -7,6 +7,9 @@ defmodule PhotoBlog.Posts.Post do
     field :photo_hash, :string
     belongs_to :user, PhotoBlog.Users.User
     has_many :comments, PhotoBlog.Comments.Comment
+    has_many :votes, PhotoBlog.Votes.Vote
+
+    field :score, :integer, virtual: true
 
     timestamps()
   end

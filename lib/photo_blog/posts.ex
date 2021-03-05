@@ -22,6 +22,25 @@ defmodule PhotoBlog.Posts do
     |> Repo.preload(:user)
   end
 
+  def load_votes(%Post{} = post) do
+    post = Repo.preload(post, :votes)
+    score = post.votes
+    |> Enum.map(&(&1.votes))
+    |> Enum.sum()
+    %{ post | score: score }
+  end
+
+  def load_votes(posts) do
+    posts = Repo.preload(posts, :votes)
+
+    Enum.map posts, fn post ->
+      score = post.votes
+      |> Enum.map(&(&1.votes))
+      |> Enum.sum()
+      %{ post | score: score }
+    end
+  end
+
   @doc """
   Gets a single post.
 

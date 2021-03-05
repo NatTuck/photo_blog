@@ -12,6 +12,7 @@ defmodule PhotoBlogWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug PhotoBlogWeb.Plugs.RequireAuth
   end
 
   scope "/", PhotoBlogWeb do
@@ -27,9 +28,11 @@ defmodule PhotoBlogWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", PhotoBlogWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", PhotoBlogWeb do
+    pipe_through :api
+
+    resources "/votes", VoteController, except: [:new, :edit]
+  end
 
   # Enables LiveDashboard only for development
   #
