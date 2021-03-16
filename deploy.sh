@@ -31,6 +31,7 @@ export SECRET_KEY_BASE
 DB_PASS=$(cat "$CFGD/db_pass")
 export DATABASE_URL=ecto://photos:$DB_PASS@localhost/photo_blog_prod
 
+#mix ecto.reset
 mix ecto.migrate
 
 npm install --prefix ./assets
