@@ -10,6 +10,9 @@ use Mix.Config
 config :photo_blog,
   ecto_repos: [PhotoBlog.Repo]
 
+config :photo_blog,
+  mix_env: "#{Mix.env()}"
+
 # Configures the endpoint
 config :photo_blog, PhotoBlogWeb.Endpoint,
   url: [host: "localhost"],
