@@ -23,6 +23,7 @@ defmodule PhotoBlogWeb do
 
       import Plug.Conn
       import PhotoBlogWeb.Gettext
+      import PhotoBlogWeb.Helpers
       alias PhotoBlogWeb.Router.Helpers, as: Routes
     end
   end
@@ -68,6 +69,7 @@ defmodule PhotoBlogWeb do
 
       import PhotoBlogWeb.ErrorHelpers
       import PhotoBlogWeb.Gettext
+      import PhotoBlogWeb.Helpers
       alias PhotoBlogWeb.Router.Helpers, as: Routes
     end
   end

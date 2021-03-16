@@ -7,27 +7,49 @@
     <title>PhotoBlog · Phoenix Framework</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <script>
+      window.userToken = "<%= @conn.assigns[:user_token] %>";
+    </script>
   </head>
   <body>
-    <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
+    <div role="main" class="container">
+      <div class="row">
+        <div class="col my-2">
+          <p>
+            <%= link "Home", to: "/" %>
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
+              | <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
             <% end %>
-          </ul>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
-    </header>
-    <main role="main" class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+          </p>
+        </div>
+        <%= if @conn.assigns[:current_user] do %>
+          <div class="col">
+            User: <%= @current_user.name %> |
+            <%= link("Logout", to: Routes.session_path(@conn, :delete),
+              method: :delete) %>
+          </div>
+        <% else %>
+          <div class="col">
+            <%= form_for @conn, Routes.session_path(@conn, :create),
+                  [class: "form-inline"], fn f -> %>
+              <%= text_input f, :name, class: "form-control" %>
+              <%= submit "Login", class: "btn btn-secondary" %>
+            <% end %>
+          </div>
+          <div class="col my-2">
+            <p><%= link "Register", to: Routes.user_path(@conn, :new) %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <%= if get_flash(@conn, :info) do %>
+        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <% end %>
+      <%= if get_flash(@conn, :error) do %>
+        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <% end %>
+
       <%= @inner_content %>
-    </main>
+    </div>
   </body>
 </html>

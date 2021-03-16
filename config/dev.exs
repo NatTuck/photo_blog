@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :photo_blog, PhotoBlog.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "photo_blog",
+  password: "uzae7aiw1eeV",
   database: "photo_blog_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,

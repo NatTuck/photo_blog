@@ -1,38 +1,27 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>Peace of mind from prototype to production</p>
-</section>
+<div class="row">
+  <div class="col">
+    <h1>Photo Feed</h1>
+    <%= if have_current_user?(@conn) do %>
+      <p><%= link "New Post", to: Routes.post_path(@conn, :new) %></p>
+    <% end %>
+  </div>
+</div>
 
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-      <li>
-        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
-      </li>
-    </ul>
-  </article>
-</section>
+<div class="row posts-container">
+  <%= for post <- @posts do %>
+    <div class="col-sm-4 card post-card" data-post-id="<%= post.id %>">
+      <% src = Routes.post_path(@conn, :photo, post) %>
+      <img class="card-img-top" src="<%= src %>" alt="">
+      <div class="card-body">
+        <p>Posted by <%= post.user.name %></p>
+        <p class="card-text"><%= post.body %></p>
+        <%= link "view", to: Routes.post_path(@conn, :show, post) %>
+        <p>
+          Votes: <span class="post-score"><%= post.score %></span>
+          <button class="upvote">&#128077;</button>
+          <button class="downvote">&#128078;</button>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>

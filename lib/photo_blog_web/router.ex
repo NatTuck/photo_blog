@@ -7,22 +7,32 @@ defmodule PhotoBlogWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug PhotoBlogWeb.Plugs.FetchUser
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug PhotoBlogWeb.Plugs.RequireAuth
   end
 
   scope "/", PhotoBlogWeb do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/posts", PostController
+    get "/posts/photo/:id", PostController, :photo
+    resources "/users", UserController
+    resources "/comments", CommentController
+
+    resources "/sessions", SessionController, only: [:create, :delete], singleton: true
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", PhotoBlogWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", PhotoBlogWeb do
+    pipe_through :api
+
+    resources "/votes", VoteController, except: [:new, :edit]
+  end
 
   # Enables LiveDashboard only for development
   #
